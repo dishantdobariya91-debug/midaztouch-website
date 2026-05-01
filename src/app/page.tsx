@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from "react";
 
-const API_URL = "";
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "";
 
 // ── Cinematic Ayurveda images from Unsplash ──
 const IMAGES = {
@@ -25,7 +25,7 @@ export default function MidazTouchWebsite() {
   const [formState, setFormState] = useState("idle");
   const [emergencyOpen, setEmergencyOpen] = useState(false);
   const [emData, setEmData] = useState({ name: "", phone: "", pain: 7, desc: "" });
-  const sectionsRef = useRef([]);
+  const sectionsRef = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 1800);
@@ -159,7 +159,7 @@ export default function MidazTouchWebsite() {
       </nav>
 
       {/* ══════ HERO — Full bleed Ayurveda image ══════ */}
-      <section ref={el => sectionsRef.current[0] = el} style={{
+      <section ref={el => { sectionsRef.current[0] = el; }} style={{
         minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", justifyContent: "center",
         overflow: "hidden",
       }}>
@@ -228,7 +228,7 @@ export default function MidazTouchWebsite() {
       </section>
 
       {/* ══════ ABOUT — What is Midaz Touch ══════ */}
-      <section id="s0" ref={el => sectionsRef.current[1] = el} style={{
+      <section id="s0" ref={el => { sectionsRef.current[1] = el; }} style={{
         padding: "120px 40px", position: "relative", overflow: "hidden",
       }}>
         {/* Subtle nature BG */}
@@ -289,7 +289,7 @@ export default function MidazTouchWebsite() {
       </section>
 
       {/* ══════ THERAPIES ══════ */}
-      <section id="s1" ref={el => sectionsRef.current[2] = el} style={{
+      <section id="s1" ref={el => { sectionsRef.current[2] = el; }} style={{
         padding: "120px 40px", position: "relative",
       }}>
         <div style={{
@@ -342,7 +342,7 @@ export default function MidazTouchWebsite() {
       </section>
 
       {/* ══════ HOW IT WORKS — Journey ══════ */}
-      <section id="s2" ref={el => sectionsRef.current[3] = el} style={{ padding: "120px 40px", background: "linear-gradient(180deg, #111A11, #0A0F08)" }}>
+      <section id="s2" ref={el => { sectionsRef.current[3] = el; }} style={{ padding: "120px 40px", background: "linear-gradient(180deg, #111A11, #0A0F08)" }}>
         <div style={{ textAlign: "center", marginBottom: 60 }}>
           <div style={{ fontSize: 12, color: "#C9A96E", letterSpacing: 4, textTransform: "uppercase", marginBottom: 16 }}>Your Healing Journey</div>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(30px,4vw,48px)", color: "#F5F0E8" }}>5 Steps to Recovery</h2>
@@ -381,7 +381,7 @@ export default function MidazTouchWebsite() {
       </section>
 
       {/* ══════ TESTIMONIALS ══════ */}
-      <section id="s3" ref={el => sectionsRef.current[4] = el} style={{ padding: "120px 40px", position: "relative", overflow: "hidden" }}>
+      <section id="s3" ref={el => { sectionsRef.current[4] = el; }} style={{ padding: "120px 40px", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${IMAGES.ayurveda})`, backgroundSize: "cover", backgroundPosition: "center", filter: "brightness(0.08)", transform: parallax(-0.06) }} />
         <div style={{ position: "relative", zIndex: 2, textAlign: "center", marginBottom: 48 }}>
           <div style={{ fontSize: 12, color: "#C9A96E", letterSpacing: 4, textTransform: "uppercase", marginBottom: 16 }}>Patient Stories</div>
@@ -445,13 +445,13 @@ export default function MidazTouchWebsite() {
                   <div key={f.key} style={{ gridColumn: f.full ? "span 2" : "span 1" }}>
                     <label style={{ fontSize: 12, color: "#8A8878", display: "block", marginBottom: 6, letterSpacing: 0.5 }}>{f.label}</label>
                     {f.type === "select" ? (
-                      <select value={formData[f.key]} onChange={e => setFormData(d => ({ ...d, [f.key]: e.target.value }))}
+                      <select value={(formData as any)[f.key]} onChange={e => setFormData(d => ({ ...d, [f.key]: e.target.value }))}
                         style={{ width: "100%", padding: "13px 14px", borderRadius: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(201,169,110,0.12)", color: "#F5F0E8", fontSize: 14, fontFamily: "'DM Sans',sans-serif" }}>
                         <option value="">Select area</option>
                         {["Knee Pain","Back Pain","Neck / Cervical","Shoulder","Joint Pain","Full Body","Other"].map(o => <option key={o} value={o}>{o}</option>)}
                       </select>
                     ) : (
-                      <input type={f.type} value={formData[f.key]} onChange={e => setFormData(d => ({ ...d, [f.key]: e.target.value }))}
+                      <input type={f.type} value={(formData as any)[f.key]} onChange={e => setFormData(d => ({ ...d, [f.key]: e.target.value }))}
                         placeholder={f.placeholder}
                         style={{ width: "100%", padding: "13px 14px", borderRadius: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(201,169,110,0.12)", color: "#F5F0E8", fontSize: 14, fontFamily: "'DM Sans',sans-serif", outline: "none" }} />
                     )}
@@ -480,7 +480,7 @@ export default function MidazTouchWebsite() {
       </section>
 
       {/* ══════ EMERGENCY ══════ */}
-      <section id="s4" ref={el => sectionsRef.current[5] = el} style={{ padding: "100px 40px", background: "linear-gradient(135deg, rgba(232,93,93,0.04), rgba(10,15,8,1))" }}>
+      <section id="s4" ref={el => { sectionsRef.current[5] = el; }} style={{ padding: "100px 40px", background: "linear-gradient(135deg, rgba(232,93,93,0.04), rgba(10,15,8,1))" }}>
         <div style={{ textAlign: "center" }}>
           <div style={{ fontSize: 12, color: "#E85D5D", letterSpacing: 4, textTransform: "uppercase", marginBottom: 16 }}>Emergency Support</div>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,4vw,44px)", color: "#F5F0E8", marginBottom: 16 }}>In Pain Right Now?</h2>
@@ -510,7 +510,7 @@ export default function MidazTouchWebsite() {
             ].map(f => (
               <div key={f.key} style={{ marginBottom: 16 }}>
                 <label style={{ fontSize: 12, color: "#8A8878", display: "block", marginBottom: 6 }}>{f.label}</label>
-                <input value={emData[f.key]} onChange={e => setEmData(d => ({ ...d, [f.key]: e.target.value }))} placeholder={f.placeholder}
+                <input value={(emData as any)[f.key]} onChange={e => setEmData(d => ({ ...d, [f.key]: e.target.value }))} placeholder={f.placeholder}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(232,93,93,0.2)", color: "#F5F0E8", fontSize: 14, fontFamily: "'DM Sans',sans-serif", outline: "none" }} />
               </div>
             ))}
